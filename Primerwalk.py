@@ -15,7 +15,7 @@ import datetime
 import pandas as pd
 import os.path
 import shutil
-import primer_front
+import Primerwalk_GUI
 
 global order_type
 
