@@ -1,5 +1,6 @@
-#2019-07-21: script to generate primer walk for large DNA sequence - order form for IDT generated
-#Replica of primer_walk0.2.py
+#2019-07-22: script to generate primer walk for large DNA sequence - order form for IDT generated
+#TO_DO: Add both plate and tube IDT order generator. 
+#Communicates with frontend file for GUI interface (Primerwalk_GUI.py)
 #Update: Now reads .csv file 'sequence_file.csv' for input - bulk primer synthesis capacity in place with new directory generated per day.
 #   name of vector to be synthesized
 #   full vector sequence string and segment of interest (NT) whether uppercase or lowercase, does not matter
@@ -14,6 +15,9 @@ import datetime
 import pandas as pd
 import os.path
 import shutil
+import primer_front
+
+global order_type
 
 seq_table = {
     'A':'T',
@@ -21,6 +25,20 @@ seq_table = {
     'C':'G',
     'T':'A'
 }
+
+well_list = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 
+'A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2', 
+'A3', 'B3', 'C3', 'D3', 'E3', 'F3', 'G3', 'H3', 
+'A4', 'B4', 'C4', 'D4', 'E4', 'F4', 'G4', 'H4', 
+'A5', 'B5', 'C5', 'D5', 'E5', 'F5', 'G5', 'H5', 
+'A6', 'B6', 'C6', 'D6', 'E6', 'F6', 'G6', 'H6', 
+'A7', 'B7', 'C7', 'D7', 'E7', 'F7', 'G7', 'H7', 
+'A8', 'B8', 'C8', 'D8', 'E8', 'F8', 'G8', 'H8', 
+'A9', 'B9', 'C9', 'D9', 'E9', 'F9', 'G9', 'H9', 
+'A10', 'B10', 'C10', 'D10', 'E10', 'F10', 'G10', 'H10', 
+'A11', 'B11', 'C11', 'D11', 'E11', 'F11', 'G11', 'H11', 
+'A12', 'B12', 'C12', 'D12', 'E12', 'F12', 'G12', 'H12']
+
 
 # == FUNCTION ==
 
@@ -58,28 +76,46 @@ def nonspecific_looker(fprimer, rprimer, full_seq):
     
 #write fprimer and rprimer sequences to .csv file compatable with IDT oligoDNA bulk input
 class IDT_CSV:
-    def __init__(self, fprimer_l, rprimer_l, filename, primer_conc):
+    def __init__(self, fprimer_l, rprimer_l, filename):
         self.fprimer_l = fprimer_l
         self.rprimer_l = rprimer_l
         self.filename = filename
-        self.csv_name = f'IDT_{filename}'
+        self.csv_tube_name = f'IDT_Tube_{filename}'
+        self.csv_plate_name = f'IDT_Plate_{filename}'
         self.primer_conc = primer_conc
-        self.title = f"{str(self.csv_name)}.csv"
+        self.title = f"{str(self.filename)}.csv"
+        self.idt_tube_list = ['Name,Sequence,Scale,Purification']
+        self.idt_plate_list = ['Well Position,Name,Sequence']
 
-    def write_order(self):
-        self.idt_list = ['Name,Sequence,Scale,Purification']
+    def write_tube_order(self, primer_conc):
         for i in self.fprimer_l:
-            self.idt_list.append(f"{f'{self.filename}_{self.fprimer_l.index(i)+1}_f'},{i},{self.primer_conc}nm,STD \n")
+            self.idt_tube_list.append(f"{f'{self.filename}_{self.fprimer_l.index(i)+1}_f'},{i},{self.primer_conc}nm,STD \n")
         for i in self.rprimer_l:
-            self.idt_list.append(f"{f'{self.filename}_{self.rprimer_l.index(i)+1}_r'},{i},{self.primer_conc}nm,STD \n")
-        with open(self.title,'w',newline = '') as csv_file:
-            writer = csv.writer(csv_file, delimiter = ',')
-            writer.writerows([i.split(',') for i in self.idt_list])
-        csv_file.close()
+            self.idt_tube_list.append(f"{f'{self.filename}_{self.rprimer_l.index(i)+1}_r'},{i},{self.primer_conc}nm,STD \n")
+        with open(self.title,'w',newline = '') as csv_tube_file:
+            writer = csv.writer(csv_tube_file, delimiter = ',')
+            writer.writerows([i.split(',') for i in self.idt_tube_list])
+        csv_tube_file.close()
 
-    def csv_to_excel(self):
+    def write_plate_order(self):
+        count = -1
+        for i in self.fprimer_l:
+            count += 1
+            self.idt_plate_list.append(f"{well_list[count]},{f'{self.filename}_{self.fprimer_l.index(i)+1}_f'},{i} \n")
+        for i in self.rprimer_l:
+            count += 1
+            self.idt_plate_list.append(f"{well_list[count]},{f'{self.filename}_{self.rprimer_l.index(i)+1}_r'},{i} \n")
+        with open(self.title,'w',newline = '') as csv_plate_file:
+            writer = csv.writer(csv_plate_file, delimiter = ',')
+            writer.writerows([i.split(',') for i in self.idt_plate_list])
+        csv_plate_file.close()
+
+    def csv_to_excel(self, order_type):
         path = f'{os.getcwd()}/{self.title}'
-        pd.read_csv(path).to_excel(f'{str(self.csv_name)}.xlsx', index = False)
+        if order_type == 'tube':
+            pd.read_csv(path).to_excel(f'{str(self.csv_tube_name)}.xlsx', index = False)
+        elif order_type == 'plate':
+            pd.read_csv(path).to_excel(f'{str(self.csv_plate_name)}.xlsx', index = False)
         os.remove(path)
 
     #write .csv file for Tm - could be interesting but not in production
@@ -225,9 +261,12 @@ for index, row in seq_file.iterrows():
     fprimer = list(set(fprimer))
     rprimer = list(set(rprimer))
 
-    write_to_file = IDT_CSV(fprimer, rprimer, filename, primer_conc)
-    write_to_file.write_order()
-    write_to_file.csv_to_excel()
+    write_to_file = IDT_CSV(fprimer, rprimer, filename)
+    if order_type.lower() == 'tube':
+        write_to_file.write_tube_order(primer_conc)
+    elif order_type.lower() == 'plate':
+        write_to_file.write_plate_order()
+    write_to_file.csv_to_excel(order_type)
 
 #print to terminal if script executes successfully
 print(f'\n-- COMPLETE --\nPlease check folder: {datetime.date.today()}\n')
