@@ -114,7 +114,7 @@ class WorklistGenerator(GridLayout):
         if instance:
             global order_type
             order_type = 'tube'
-            exec(open("primer_walk0.3.py").read(), globals(), globals())
+            exec(open("Primerwalk.py").read(), globals(), globals())
             os.chdir(main_dir)
             self.status.text = f'[b][u]Status[/u]:    Single Tubes Complete\n[u]Results Folder[/u]:    "{datetime.date.today()}"[/b]'
 
@@ -122,7 +122,7 @@ class WorklistGenerator(GridLayout):
         if instance:
             global order_type
             order_type = 'plate'
-            exec(open("primer_walk0.3.py").read(), globals(), globals())
+            exec(open("Primerwalk.py").read(), globals(), globals())
             os.chdir(main_dir)
             self.status.text = f'[b][u]Status[/u]:    96-Well Plate Complete\n[u]Results Folder[/u]:    "{datetime.date.today()}"[/b]'
 
