@@ -51,7 +51,7 @@ A new directory with the name of today's date will be created in your main direc
 Inside the directory, you will find unique .xlsx files for every plasmid you inputted in the 'sequence_file.csv' file. <br><br>
 Each file will have the following naming format: *IDT_Tube_(plasmid name).xlsx*<br><br>
 
-<img src="https://i.imgur.com/jCFubfz.png" alt="alt text"> <br><br>
+<img src="https://i.imgur.com/G6BbcAq.png" alt="alt text"> <br><br>
 
 Please upload this file directly to this website (https://www.idtdna.com/site/order/oligoentry) and perform the following tasks: <br><br>
 *Click on button 'Bulk Input' in center of webpage (blue button)*<br><br>
