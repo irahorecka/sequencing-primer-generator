@@ -4,8 +4,6 @@ A python tool that will batch generate optimal DNA primers for Sanger sequencing
 ## Introduction
 In this repository, there are two files: Primerwalk_GUI.py and Primerwalk.py. Primerwalk_GUI.py is a front end desktop application that communicates with the backend Primerwalk.py python file. This repository would be most helpful for molecular biologist who frequently conduct full plasmid sequencing. <br>
 <br>
-*Primerwalk_GUI.py*<br>
-<img src="https://i.imgur.com/nKVMKuh.png" alt="alt text" width="500" height="400"> <br><br>
 
 There are licensed softwares that provide primer synthesis capabilities, but none that can synthesize appropriate forward and reverse primers in batch. The exported files of Primerwalk.py is compatible for single tube ordering and 96-well plate ordering from IDT (idtdna.com).<br>
 
@@ -41,7 +39,7 @@ Please adhere precisely to the format outlined below (note: the headers are case
 ### Running Primerwalk_GUI.py on terminal
 
 Navigate through your terminal to the directory in which Primerwalk_GUI.py is installed.<br>
-Type: *python Primerwalk_GUI.py*<br>
+Type into terminal:   *python Primerwalk_GUI.py*<br>
 The following desktop application should appear:<br>
 <br>
 <img src="https://i.imgur.com/nKVMKuh.png" alt="alt text" width="500" height="400"> <br><br>
@@ -50,15 +48,16 @@ The following desktop application should appear:<br>
 If you would like to order single tubes of primers from IDT, click the 'SINGLE TUBES' button on the desktop application. If executed correctly, the desktop application would look like this: <br><br>
 
 <img src="https://i.imgur.com/hZEgnl0.png" alt="alt text" width="500" height="400"> <br><br>
-A new directory with the name of today's date will be created in your main directory (i.e. the directory with your Primerwalk_GUI.py, Primerwalk.py, and sequence_file.csv files). Inside the directory, you will find unique .xlsx files for every plasmid you inputted in the 'sequence_file.csv' file. <br>
+A new directory with the name of today's date will be created in your main directory (i.e. the directory with your Primerwalk_GUI.py, Primerwalk.py, and sequence_file.csv files). <br>
+Inside the directory, you will find unique .xlsx files for every plasmid you inputted in the 'sequence_file.csv' file. <br><br>
 Each file will have the following naming format: *IDT_Tube_(plasmid name).xlsx*<br><br>
 
 <img src="https://i.imgur.com/jCFubfz.png" alt="alt text"> <br><br>
 
 Please upload this file directly to this website (https://www.idtdna.com/site/order/oligoentry) and perform the following tasks: <br><br>
-*Click on button 'Bulk Input' in center of webpage (blue button)*<br>
+*Click on button 'Bulk Input' in center of webpage (blue button)*<br><br>
 <img src="https://i.imgur.com/ReISAAS.png" alt="alt text"> <br><br>
-*Click on button 'Choose File' to upload your .xlsx ordering forms*<br>
+*Click on button 'Choose File' to upload your .xlsx ordering forms*<br><br>
 <img src="https://i.imgur.com/m9CKjG8.png" alt="alt text"> <br><br>
 All required fields in the ordering form should automatically fill. Proceed to checkout if satisfied with input.<br><br>
 
