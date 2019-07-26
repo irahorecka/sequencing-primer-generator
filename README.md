@@ -73,7 +73,9 @@ Each file will have the following naming format: *IDT_Plate_(plasmid name).xlsx*
 
 Upload this file directly to this website (https://www.idtdna.com/site/order/plate/index/pico/5647) and perform the following tasks: <br><br>
 *Click on button 'Upload Plate(s)' in center of webpage (blue button)*<br><br>
-<img src="https://i.imgur.com/D0HZNyj.png" alt="alt text" width="600" height="400"> <br><br><br>
+<img src="https://i.imgur.com/D0HZNyj.png" alt="alt text" width="800" height="400"> <br><br><br>
 *Click on button 'Choose File' to upload your .xlsx ordering forms*<br><br>
-<img src="https://i.imgur.com/XCpuGrv.png" alt="alt text" width="600" height="400"> <br><br><br>
+<img src="https://i.imgur.com/XCpuGrv.png" alt="alt text" width="700" height="330"> <br><br>
 All required fields in the ordering form should automatically fill. Proceed to checkout if satisfied with input.<br><br>
+
+***Fin***
