@@ -22,8 +22,8 @@ Single tube ordering form: https://www.idtdna.com/site/order/oligoentry <br>
 
 The only changes one must make when using this code is modifying the directory in Primerwalk_GUI.py (var 'main_dir'). Please ensure that both Primerwalk_GUI.py and Primerwalk.py are located in the same directory. 
 
-Please make a .csv file named 'sequence_file.csv'. Store this file in the same directory as Primerwalk_GUI.py and Primerwalk.py. Note: the naming of this file is *critical* for Primerwalk.py to parse.<br>
-Please adhere precisely to the format outlined below (note: the headers are case sensitive - please adhere as exactly as listed): <br>
+Download 'sequence_file.csv' and store file in the same directory as Primerwalk_GUI.py and Primerwalk.py. Note: the naming of this file is *critical* for Primerwalk.py to parse.<br>
+Please adhere precisely to the header format outlined below (note: the headers are case sensitive - please adhere as exactly as listed): <br>
 <br>
 *sequence_file.csv*<br>
 <img src="https://i.imgur.com/jCFubfz.png" alt="alt text"> <br><br>
