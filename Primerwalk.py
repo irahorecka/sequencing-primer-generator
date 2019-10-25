@@ -242,5 +242,8 @@ def process_csv(order_type):
         write_to_file.csv_to_excel(order_type)
 
 
-process_csv(order_type)
-print(f'\n-- COMPLETE --\nPlease check folder: {datetime.date.today()}\n')
+try:
+    process_csv(order_type)
+    print(f'\n-- COMPLETE --\nPlease check folder: {datetime.date.today()}\n')
+except Exception as error:
+    print(f'An exception occurred: {error}')
