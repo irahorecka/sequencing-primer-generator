@@ -12,7 +12,8 @@ Single tube ordering form: https://www.idtdna.com/site/order/oligoentry <br>
 
 ## How to use
 
-### Python packages to install (see requirements.txt)
+### Python version and packages to install (see requirements.txt)
+*Python 3.7.3*
 - pandas
 - kivy
 
