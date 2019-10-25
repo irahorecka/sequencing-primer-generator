@@ -12,11 +12,13 @@ Single tube ordering form: https://www.idtdna.com/site/order/oligoentry <br>
 
 ## How to use
 
-### Python packages to install
+### Python packages to install (see requirements.txt)
 - pandas
 - kivy
-- csv
-- shutil
+
+### Starting application
+
+```$ python Primerwalk_GUI.py```
 
 ### Input file formatting
 
