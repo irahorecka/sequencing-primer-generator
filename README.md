@@ -39,9 +39,7 @@ Please adhere precisely to the header format outlined below (note: the headers a
 
 ### Running Primerwalk_GUI.py on terminal
 
-Navigate through your terminal to the directory in which Primerwalk_GUI.py is installed.<br>
-Type into terminal:   *python Primerwalk_GUI.py*<br>
-The following desktop application should appear:<br>
+Open ```Primerwalk_GUI.py``` in your terminal and the following desktop application should appear:<br>
 <br>
 <img src="https://i.imgur.com/nKVMKuh.png" alt="alt text" width="500" height="400"> <br><br>
 #### Choosing Single Tubes:
