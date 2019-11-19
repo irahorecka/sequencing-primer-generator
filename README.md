@@ -44,6 +44,7 @@ Please adhere precisely to the headers in *sequence_file.csv*, outlined below (n
 3) The following desktop application should appear:<br>
 <br>
 <img src="https://i.imgur.com/nKVMKuh.png" alt="alt text" width="500" height="400"> <br><br>
+
 ### Choosing Single Tubes:
 
 If you would like to order single tubes of primers from IDT, click the 'SINGLE TUBES' button on the desktop application. When executed, the desktop application would look like this: <br><br>
