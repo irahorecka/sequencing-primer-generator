@@ -5,7 +5,6 @@ primers for sequences included in the imported .csv
 file (sequence_file.csv) and determines tube or 96-plate
 layout for ordering on IDT.
 """
-
 import csv
 import datetime
 import os.path
@@ -36,24 +35,20 @@ WELL_LIST = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1',
              'A12', 'B12', 'C12', 'D12', 'E12', 'F12', 'G12', 'H12']
 
 
-# complement function for sequence
 def complement(seq):
-    comp = ''
-    for i in seq:
-        comp += SEQ_TABLE.get(i.upper(), '0')
+    """ Complement function for sequence """
+    comp = ''.join([SEQ_TABLE.get(i.upper(), '0') for i in seq])
     return comp
 
 
-# reverse complement function for sequence
 def r_complement(seq):
-    comp = ''
-    for i in seq:
-        comp += SEQ_TABLE.get(i.upper(), '0')
+    """ Reverse complement function for sequence """
+    comp = ''.join([SEQ_TABLE.get(i.upper(), '0') for i in seq])
     return comp[::-1]
 
 
-# checks for secondary primer binding sites
 def nonspecific_looker(fprimer, rprimer, full_seq):
+    """ Checks for secondary primer binding sites """
     full_seq = full_seq.upper()
     reverse_full = r_complement(full_seq)
     for i in fprimer:
@@ -62,12 +57,15 @@ def nonspecific_looker(fprimer, rprimer, full_seq):
     for i in rprimer:
         if full_seq.count(i) > 1 or reverse_full.count(i) > 1:
             return 'FAIL'
-
     return 'PASS'
 
 
-# write fprimer and rprimer sequences to .csv file compatable with IDT oligoDNA bulk input
 class IDTCSV:
+    """
+    A class to write fprimer and rprimer sequences to .xlsx file
+    compatable with IDT oligoDNA bulk input - either in single tube
+    format or 96-well plate format
+    """
     def __init__(self, fprimer_l, rprimer_l, filename):
         self.fprimer_l = fprimer_l
         self.rprimer_l = rprimer_l
@@ -79,6 +77,9 @@ class IDTCSV:
         self.idt_plate_list = ['Well Position,Name,Sequence']
 
     def write_tube_order(self, primer_conc):
+        """
+        A method to write .csv files in single tube format
+        """
         for i in self.fprimer_l:
             self.idt_tube_list.append(f"{f'{self.filename}_{self.fprimer_l.index(i)+1}_f'},{i},{primer_conc}nm,STD \n")
         for i in self.rprimer_l:
@@ -89,6 +90,9 @@ class IDTCSV:
         csv_tube_file.close()
 
     def write_plate_order(self):
+        """
+        A method to write .csv files in 96-well plate format
+        """
         count = -1
         for i in self.fprimer_l:
             count += 1
@@ -102,6 +106,11 @@ class IDTCSV:
         csv_plate_file.close()
 
     def csv_to_excel(self, order_type):
+        """
+        Convert written .csv files, whether in single tube
+        format or 96-well plate format, to a .xlsx format
+        compatible with IDT upload.
+        """
         path = f'{os.getcwd()}/{self.title}'
         if order_type == 'tube':
             pd.read_csv(path).to_excel(f'{str(self.csv_tube_name)}.xlsx', index=False)
@@ -110,21 +119,26 @@ class IDTCSV:
         os.remove(path)
 
 
-# checking appropriate primer selection rules:
-# 1: GC percentage should be no less than 45% and no greater than 55%
-# 2: Melt temp of primer should be greater than 50C and less than 65C
-# 3: There should be no more than 4 homopolymer sequences in the primer
-# 4: The 3' end of every primer should be a 'G' or 'C'
 class Rule:
+    """
+    A class to validate primers for submission pass four criteria:
+    1: GC percentage should be no less than 45% and no greater than 55%
+    2: Melt temp of primer should be greater than 50C and less than 65C
+    3: There should be no more than 4 homopolymer sequences in the primer
+    4: The 3' end of every primer should be a 'G' or 'C'
+    """
     def __init__(self, prim_sequence):
         self.p_seq = prim_sequence
 
     def gc_perc(self):
+        """ Check GC percentage in primer """
         _gc = self.p_seq.count('G') + self.p_seq.count('C')
         len_seq = len(self.p_seq)
         return bool(_gc > 0.45*(len_seq) and _gc < 0.55*(len_seq))
 
     def homo_polymer(self):
+        """ Checks for homopolymers (i.e. any consecutive nucleotide
+        sequences longer than four nucleotides in length) """
         codon = lambda nt: nt.upper()*4
         for i in 'agct':
             if codon(i) in self.p_seq:
@@ -132,9 +146,11 @@ class Rule:
         return True
 
     def last_gc(self):
+        """ Checks two leading and terminal sequences are either G or C """
         return bool(self.p_seq[-1] == 'G' or self.p_seq[-1] == 'C') and (self.p_seq[-2] == 'G' or self.p_seq[-2] == 'C')
 
     def temp_melt(self):
+        """ Checks melting temperature of primer """
         gc = self.p_seq.count('G') + self.p_seq.count('C')
         ta = self.p_seq.count('T') + self.p_seq.count('A')
         temp_melt = 64.9 + 41*((gc - 16.4)/(gc + ta))
@@ -142,12 +158,20 @@ class Rule:
 
 
 class PrimerCheck:
+    """
+    A high level QC class to proccess lower level QC -
+    send to file writer if all conditions are
+    satisfied for generated primer(s).
+    """
     def __init__(self, seq, count):
         self.seq = seq
         self.count = count
 
-    # generates appropriate 22bp forward primer with test cases in Rule class for each instance of potential forward primer
     def f_check(self, fprimer_l):
+        """
+        Generates appropriate 22bp forward primer, passes for QC
+        in Rule class.
+        """
         fprimer = self.seq[self.count-50:self.count-28].upper()
         fp_test = Rule(fprimer)
         try:
@@ -160,29 +184,39 @@ class PrimerCheck:
             fprimer_l.append('FAIL')
             return fprimer_l
 
-    # generates appropriate 22bp reverse primer with test cases in Rule class for each instance of potential reverse primer
     def r_check(self, rprimer_l):
+        """
+        Generates appropriate 22bp reverse primer, passes for QC
+        in Rule class.
+        """
         rprimer = r_complement(self.seq[self.count+28:self.count+50]).upper()
         rp_test = Rule(rprimer)
         try:
             if rp_test.gc_perc() and rp_test.temp_melt() and rp_test.homo_polymer() and rp_test.last_gc():
                 rprimer_l.append(rprimer)
                 return rprimer_l
-            else:
-                self.count -= 1
-                self.r_check(rprimer_l)
+            self.count -= 1
+            self.r_check(rprimer_l)
         except RecursionError:
             rprimer_l.append('FAIL')
             return rprimer_l
 
 
 class PrimerSeek:
+    """
+    A class to look at the full sequence and generate appropriate
+    primers to ship to QC and eventually write to .csv --> .xlsx
+    file.
+    """
     def __init__(self, seq, bp):
         self.seq = seq
         self.bp = bp
 
-    # appends appropriate primers (both forward and reverse) to specified list
     def primer_find(self):
+        """
+        Appends appropriate primers (both forward and reverse)
+        to specified list
+        """
         count = 0
         fprimer_l = []
         rprimer_l = []
@@ -196,8 +230,11 @@ class PrimerSeek:
         rprimer_l = primer_l(rprimer_l)
         return fprimer_l, rprimer_l
 
-    # if there is an unsuccessful attempt to make a primer, the search bp value is incremented by 10
     def primer_synthesis(self):
+        """
+        If there is an unsuccessful attempt to make a primer,
+        the search bp value is incremented by 10
+        """
         fprimer, rprimer = self.primer_find()
         while 'FAIL' in fprimer or 'FAIL' in rprimer:
             self.bp = self.bp + 10
@@ -206,10 +243,14 @@ class PrimerSeek:
 
 
 def process_csv(order_type):
-    # read input file 'sequence_file.csv' for batch primer sequence generation
+    """
+    Read input file 'sequence_file.csv' for batch primer
+    sequence generation - if the directory path you want
+    to make is not there, make it - override if directory
+    is present.
+    """
     seq_file = pd.read_csv('sequence_file.csv')
     new_direct = f'{os.getcwd()}/{datetime.date.today()}'
-    # if the directory path you want to make is not there, make it - override if current directory there.
     if os.path.exists(new_direct):
         shutil.rmtree(new_direct)
     os.makedirs(new_direct)
@@ -222,7 +263,6 @@ def process_csv(order_type):
         bp = row['BP Gap']
         primer_conc = row['Primer conc. (nM)']
 
-        # checks for sequences for every row in 'sequence_file.csv'
         Seek = PrimerSeek(seq, bp)
         fprimer, rprimer = Seek.primer_synthesis()
         status = nonspecific_looker(fprimer, rprimer, full_seq)
@@ -239,6 +279,7 @@ def process_csv(order_type):
             write_to_file.write_tube_order(primer_conc)
         elif order_type.lower() == 'plate':
             write_to_file.write_plate_order()
+
         write_to_file.csv_to_excel(order_type)
 
 

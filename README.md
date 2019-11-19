@@ -62,7 +62,8 @@ Upload this file directly to this <a src=https://www.idtdna.com/site/order/oligo
 <img src="https://i.imgur.com/ReISAAS.png" alt="alt text" width="600" height="400"> <br><br>
 *Click on button 'Choose File' to upload your .xlsx ordering forms*<br><br>
 <img src="https://i.imgur.com/m9CKjG8.png" alt="alt text" width="600" height="400"> <br><br>
-All required fields in the ordering form should automatically fill. Proceed to checkout if satisfied with input.<br><br>
+All required fields in the ordering form should automatically fill. Proceed to checkout if satisfied with input.
+<br><br>
 
 ### Choosing 96-Well Plate:
 
