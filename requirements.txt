@@ -1,3 +1,17 @@
+certifi==2019.9.11
+chardet==3.0.4
+docutils==0.15.2
+et-xmlfile==1.0.1
+idna==2.8
+jdcal==1.4.1
 Kivy==1.11.1
 Kivy-Garden==0.1.4
+numpy==1.17.4
+openpyxl==3.0.1
 pandas==0.24.2
+Pygments==2.4.2
+python-dateutil==2.8.1
+pytz==2019.3
+requests==2.22.0
+six==1.13.0
+urllib3==1.25.7
