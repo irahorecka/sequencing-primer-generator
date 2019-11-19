@@ -57,7 +57,7 @@ The .xlsx file will look like this:<br><br>
 
 <img src="https://i.imgur.com/G6BbcAq.png" alt="alt text"> <br><br>
 
-Upload this file directly to this <a src=https://www.idtdna.com/site/order/oligoentry>website</a> and perform the following tasks: <br><br>
+Upload this file directly to this <a href=https://www.idtdna.com/site/order/oligoentry>website</a> and perform the following tasks: <br><br>
 *Click on button 'Bulk Input' in center of webpage (blue button)*<br><br>
 <img src="https://i.imgur.com/ReISAAS.png" alt="alt text" width="600" height="400"> <br><br>
 *Click on button 'Choose File' to upload your .xlsx ordering forms*<br><br>
@@ -76,7 +76,7 @@ Each file will have the following naming format: *IDT_Plate_(plasmid name).xlsx*
 
 <img src="https://i.imgur.com/uOAcm3a.png" alt="alt text"> <br><br>
 
-Upload this file directly to this <a src=https://www.idtdna.com/site/order/plate/index/pico/5647>website</a> and perform the following tasks: <br><br>
+Upload this file directly to this <a href=https://www.idtdna.com/site/order/plate/index/pico/5647>website</a> and perform the following tasks: <br><br>
 *Click on button 'Upload Plate(s)' in center of webpage (blue button)*<br><br>
 <img src="https://i.imgur.com/D0HZNyj.png" alt="alt text" width="800" height="400"> <br><br>
 *Click on button 'Choose File' to upload your .xlsx ordering forms*<br><br>
