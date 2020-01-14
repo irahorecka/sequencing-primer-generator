@@ -76,6 +76,9 @@ class IDTCSV:
         self.idt_tube_list = ['Name,Sequence,Scale,Purification']
         self.idt_plate_list = ['Well Position,Name,Sequence']
 
+    def __repr__(self):
+        return "{self.__class__.__name__}({self.fprimer_l}, {self.rprimer_l}, {self.filename})".format(self=self)
+
     def write_tube_order(self, primer_conc):
         """
         A method to write .csv files in single tube format
@@ -130,6 +133,9 @@ class Rule:
     def __init__(self, prim_sequence):
         self.p_seq = prim_sequence
 
+    def __repr__(self):
+        return "{self.__class__.__name__}({self.p_seq})".format(self=self)
+
     def gc_perc(self):
         """ Check GC percentage in primer """
         _gc = self.p_seq.count('G') + self.p_seq.count('C')
@@ -166,6 +172,9 @@ class PrimerCheck:
     def __init__(self, seq, count):
         self.seq = seq
         self.count = count
+
+    def __repr__(self):
+        return "{self.__class__.__name__}({self.seq}, {self.count})".format(self=self)
 
     def f_check(self, fprimer_l):
         """
@@ -211,6 +220,9 @@ class PrimerSeek:
     def __init__(self, seq, bp):
         self.seq = seq
         self.bp = bp
+
+    def __repr__(self):
+        return "{self.__class__.__name__}({self.seq}, {self.bp})".format(self=self)
 
     def primer_find(self):
         """
